@@ -1,5 +1,4 @@
 <LoginScreen>:
-    name: "login_screen"
     GridLayout:
         cols: 1
         GridLayout:
@@ -7,18 +6,70 @@
             Label:
                 text: "User Login"
             TextInput:
+                id: username
                 hint_text: "Username"
             TextInput:
+                id: password
                 hint_text: "Password"
             Button:
                 text: "Login"
+                on_press: root.login(root.ids.username.text, root.ids.password.text)
+            Label:
+                id: login_wrong
+                text: ""
         GridLayout:
             cols: 2
             Button:
                 text: "Forgot Password?"
             Button:
                 text: "Sign Up"
+                on_press: root.signup()
+
+<SignUpScreen>:
+    GridLayout:
+        cols:1
+        Label:
+            text: "Sign up to brighten up your day"
+        TextInput:
+            id: username
+            hint_text: "Username"
+        TextInput:
+            id: password
+            hint_text: "Password"
+        Button:
+            text:"Submit"
+            on_press: root.adduser(root.ids.username.text, root.ids.password.text)
+<SignUpSuccess>:
+    GridLayout:
+        cols: 1
+        Label:
+            id: signup
+            text: "Sign up successful!"
+        Button:
+            text: 'Login Page'
+            on_press: root.renderlogin()
+
+<LoginSuccess>:
+    GridLayout:
+        cols:1
+        Button:
+            text:"Logout"
+            on_press: root.log_out()
+        Label:
+            text: "How do you feel?"
+        TextInput:
+            hint_text: "Happy? Sad? Loved? Confused?"
+        Button:
+            text: "Let me know!"
+        Label:
+            text: ""
 
 <RootWidget>:
     LoginScreen:
         name: "login_screen"
+    SignUpScreen:
+        name: "signup_screen"
+    SignUpSuccess:
+        name: "sign_up_success"
+    LoginSuccess:
+        name: "login_success"

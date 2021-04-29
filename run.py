@@ -1,8 +1,12 @@
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-import json
+from kivy.uix.image import Image
+from kivy.uix.behaviors import ButtonBehavior
+import json, glob, random
 from datetime import datetime
+from pathlib import Path
+from hoverable import HoverBehavior
 
 Builder.load_file('design.kv')
 
@@ -22,6 +26,18 @@ class LoginSuccess(Screen):
     def log_out(self):
         self.manager.transition.direction= "right"
         self.manager.current= "login_screen"
+
+    def get_quote(self, feels):
+        feel = feels.lower()
+        feeling_list= glob.glob("quotes/*txt")
+        feeling_list = [Path(filename).stem for filename in feeling_list]
+        if feel in feeling_list:
+            with open(f'quotes/{feel}.txt') as file:
+                quotes = file.readlines()
+            print(quotes)
+            self.ids.quote.text = random.choice(quotes)
+        else:
+            self.ids.quote.text="Try another feeling!"
 
 class RootWidget(ScreenManager):
     pass
@@ -43,6 +59,9 @@ class SignUpSuccess(Screen):
     def renderlogin(self):
         self.manager.transition.direction= "right"
         self.manager.current= "login_screen"
+
+class ImageButton(ButtonBehavior, HoverBehavior, Image):
+    pass
 
 class MainApp(App):
     def build(self):
